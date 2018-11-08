@@ -1,0 +1,87 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="Baking" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!--<item name="android:navigationBarColor">@color/background_super_dark</item>
+        <item name="android:statusBarColor">@color/background_super_dark</item>
+        <item name="android:textColorHint">@color/hint_disabled_dark</item>
+        <item name="android:windowBackground">@color/background_light</item>-->
+
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+    </style>
+
+    <style name="Baking.Home">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+<!--        <item name="android:windowEnterTransition">@transition/home_enter</item>-->
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAllowEnterTransitionOverlap">true</item>
+        <item name="android:windowAllowReturnTransitionOverlap">true</item>
+        <item name="android:windowSharedElementsUseOverlay">false</item>
+    </style>
+
+    <style name="Baking.RecipeDetail">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Baking.Translucent">
+        <!-- using a semi-transparent window background for the drag-back gesture -->
+        <item name="android:windowBackground">@color/scrim</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="Baking.Translucent.Exoplayer">
+
+        <item name="android:statusBarColor">@color/dribbble_super_dark</item>
+        <item name="android:navigationBarColor">@color/dribbble_super_dark</item>
+        <item name="android:colorControlActivated">?android:colorAccent</item>
+        <!--<item name="android:windowAllowReturnTransitionOverlap">false</item>-->
+        <!--<item name="android:windowSharedElementEnterTransition">@transition/exoplayer_shared_enter</item>
+        <item name="android:windowSharedElementReturnTransition">@transition/exoplayer_shared_return</item>-->
+        <!--<item name="android:windowEnterTransition">@transition/exoplayer_enter</item>
+        <item name="android:windowReturnTransition">@transition/exoplayer_return</item>
+        -->
+        <item name="android:windowEnterTransition">@transition/enter_transition_test</item>
+        <item name="android:windowReturnTransition">@transition/return_transition_test</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="RecipeTitle" parent="TextAppearance.AppCompat.Display3">
+        <item name="android:textColor">@color/recipe_title</item>
+        <item name="android:fontFamily">@font/open_sans</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/recipe_title_margin</item>
+        <item name="android:layout_marginStart">@dimen/recipe_title_margin</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="RecipeImage">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">180dp</item>
+        <item name="android:layout_margin">@dimen/recipe_image_margin</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:contentDescription">@string/recipe_image</item>
+    </style>
+
+</resources>

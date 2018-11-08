@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:interpolator/fast_out_linear_in"
+    android:transitionOrdering="together">
+
+    <slide
+        android:duration="400"
+        android:slideEdge="top">
+        <targets>
+            <target android:excludeId="@android:id/navigationBarBackground" />
+            <target android:excludeId="@android:id/statusBarBackground" />
+        </targets>
+    </slide>
+
+    <!--<fade
+        android:duration="200"
+        android:startDelay="200">
+        <targets>
+            &lt;!&ndash;<target android:targetId="@id/layoutTextView2" />&ndash;&gt;
+            <target android:targetId="@id/background" />
+            &lt;!&ndash;<target android:targetId="@id/container" />&ndash;&gt;
+        </targets>
+    </fade>-->
+
+    <fade android:duration="400">
+        <targets>
+            <target android:targetId="@android:id/navigationBarBackground" />
+            <target android:targetId="@android:id/statusBarBackground" />
+        </targets>
+    </fade>
+
+</transitionSet>

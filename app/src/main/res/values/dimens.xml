@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="app_bar_height">200dp</dimen>
+    <dimen name="item_width">200dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+
+    <dimen name="recipe_title_margin">8dp</dimen>
+
+    <dimen name="recipe_image_margin">8dp</dimen>
+
+    <dimen name="padding_normal">16dp</dimen>
+    <dimen name="padding_large">24dp</dimen>
+    <dimen name="z_fab_over_touchable_app_bar">9dp</dimen>
+
+
+    <!-- standard metrics -->
+    <dimen name="drag_dismiss_distance">112dp</dimen> <!-- 2 * ?android:actionBarSize -->
+</resources>

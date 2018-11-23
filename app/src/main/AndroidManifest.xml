@@ -15,35 +15,52 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Baking">
-
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Baking.Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.RecipeDetailActivity"
             android:label="@string/title_item_detail"
-            android:theme="@style/Baking.RecipeDetail"/>
-
+            android:theme="@style/Baking.RecipeDetail" />
         <activity
             android:name=".ui.ExoplayerActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:exported="false"
+            android:launchMode="singleTask"
             android:parentActivityName=".ui.MainActivity"
             android:resizeableActivity="true"
             android:supportsPictureInPicture="true"
-            android:exported="false"
-            android:theme="@style/Baking.Translucent.Exoplayer"
-            tools:targetApi="n">
+            android:theme="@style/Baking.Translucent.Exoplayer.Screen">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.osaigbovo.udacity.bakingapp.ui.MainActivity" />
         </activity>
+
+
+        <!-- -->
+        <!--<activity android:name=".widget.BakingAppWidgetConfigure">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>-->
+
+        <!-- BakingAppWidgetProvider class implementation declared as a broadcast receiver -->
+        <receiver android:name=".widget.BakingAppWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/baking_app_widget_nfo" />
+        </receiver>
 
     </application>
 

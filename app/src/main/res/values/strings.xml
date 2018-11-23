@@ -13,4 +13,11 @@
 
     <!-- Menu -->
     <string name="picture_in_picture">Picture in Picture</string>
+
+
+
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="appwidget_prefix_default"></string>
+    <string name="appwidget_configure_instructions"></string>
 </resources>

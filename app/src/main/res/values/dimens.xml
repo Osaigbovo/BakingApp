@@ -16,5 +16,9 @@
 
 
     <!-- standard metrics -->
-    <dimen name="drag_dismiss_distance">112dp</dimen> <!-- 2 * ?android:actionBarSize -->
+    <dimen name="drag_dismiss_distance">112dp</dimen>
+
+    <!--  -->
+    <dimen name="widget_margin">8dp</dimen> <!-- 2 * ?android:actionBarSize -->
+
 </resources>

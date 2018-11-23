@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:transitionGroup="false"
+    android:background="@android:color/black"
     app:dragDismissDistance="@dimen/drag_dismiss_distance"
     app:dragDismissScale="0.95"
     tools:context=".ui.ExoplayerActivity">
@@ -18,13 +19,26 @@
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_light"
+        android:background="@android:color/black"
         android:transitionName="@string/transition_shot_background" />
 
-    <!-- We're 'faking' a toolbar here as we just want a back button.
-         This approach lets the borderless ripple extend beyond the back button's bounds,
-         toolbar clips it. Wrapping layout needed for the ripple. -->
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--<FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false" />-->
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+    <FrameLayout
         android:id="@+id/back_wrapper"
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
@@ -32,34 +46,31 @@
         android:elevation="@dimen/z_fab_over_touchable_app_bar">
 
         <!-- animate alpha in DribbleShot#enterAnimation
-             margins push out parent for the borderless ripple -->
+         margins push out parent for the borderless ripple -->
         <ImageButton
             android:id="@+id/back"
             android:layout_width="?android:actionBarSize"
             android:layout_height="?android:actionBarSize"
+            android:layout_gravity="start"
             android:background="@drawable/mid_grey_ripple"
             android:contentDescription="@null"
-            android:src="@drawable/ic_arrow_back"
-            app:layout_constraintBottom_toBottomOf="@+id/pip"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:src="@drawable/ic_arrow_back" />
 
         <ImageButton
             android:id="@+id/pip"
             android:layout_width="?android:actionBarSize"
             android:layout_height="?android:actionBarSize"
+            android:layout_gravity="end"
             android:background="@drawable/mid_grey_ripple"
             android:contentDescription="@null"
-            android:src="@drawable/ic_p_i_p1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:src="@drawable/ic_p_i_p1" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+
+
+
+
+
 
 </com.osaigbovo.udacity.bakingapp.ui.view.ElasticDragDismissFrameLayout>

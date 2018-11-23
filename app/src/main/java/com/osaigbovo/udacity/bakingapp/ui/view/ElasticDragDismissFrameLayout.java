@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.osaigbovo.udacity.bakingapp.R;
-import com.osaigbovo.udacity.bakingapp.util.AnimUtils;
-import com.osaigbovo.udacity.bakingapp.util.ColorUtils;
-import com.osaigbovo.udacity.bakingapp.util.ViewUtils;
+import com.osaigbovo.udacity.bakingapp.ui.utils.AnimUtils;
+import com.osaigbovo.udacity.bakingapp.ui.utils.ColorUtils;
+import com.osaigbovo.udacity.bakingapp.ui.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,12 +92,14 @@ public class ElasticDragDismissFrameLayout extends FrameLayout {
          * @param rawOffsetPixels     The raw distance the user has dragged
          */
         void onDrag(float elasticOffset, float elasticOffsetPixels,
-                    float rawOffset, float rawOffsetPixels) { }
+                    float rawOffset, float rawOffsetPixels) {
+        }
 
         /**
          * Called when dragging is released and has exceeded the threshold dismiss distance.
          */
-        void onDragDismissed() { }
+        void onDragDismissed() {
+        }
 
     }
 
@@ -121,7 +123,8 @@ public class ElasticDragDismissFrameLayout extends FrameLayout {
         dragScale(dyUnconsumed);
     }
 
-    @Override public boolean onInterceptTouchEvent(MotionEvent ev) {
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
         mLastActionEvent = ev.getAction();
         return super.onInterceptTouchEvent(ev);
     }

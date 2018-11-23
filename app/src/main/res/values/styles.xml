@@ -22,11 +22,8 @@
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:windowContentOverlay">@null</item>
-<!--        <item name="android:windowEnterTransition">@transition/home_enter</item>-->
-        <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowAllowEnterTransitionOverlap">true</item>
-        <item name="android:windowAllowReturnTransitionOverlap">true</item>
-        <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:windowEnterTransition">@transition/home_enter</item>
+
     </style>
 
     <style name="Baking.RecipeDetail">
@@ -46,18 +43,18 @@
     </style>
 
     <style name="Baking.Translucent.Exoplayer">
-
         <item name="android:statusBarColor">@color/dribbble_super_dark</item>
         <item name="android:navigationBarColor">@color/dribbble_super_dark</item>
         <item name="android:colorControlActivated">?android:colorAccent</item>
-        <!--<item name="android:windowAllowReturnTransitionOverlap">false</item>-->
-        <!--<item name="android:windowSharedElementEnterTransition">@transition/exoplayer_shared_enter</item>
-        <item name="android:windowSharedElementReturnTransition">@transition/exoplayer_shared_return</item>-->
-        <!--<item name="android:windowEnterTransition">@transition/exoplayer_enter</item>
+        <item name="android:windowAllowReturnTransitionOverlap">false</item>
+    </style>
+
+
+    <style name="Baking.Translucent.Exoplayer.Screen">
+        <item name="android:windowSharedElementEnterTransition">@transition/exoplayer_shared_enter</item>
+        <item name="android:windowSharedElementReturnTransition">@transition/exoplayer_shared_return</item>
+        <item name="android:windowEnterTransition">@transition/exoplayer_enter</item>
         <item name="android:windowReturnTransition">@transition/exoplayer_return</item>
-        -->
-        <item name="android:windowEnterTransition">@transition/enter_transition_test</item>
-        <item name="android:windowReturnTransition">@transition/return_transition_test</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

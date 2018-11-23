@@ -6,14 +6,14 @@
 
     <!-- can't use a pathMotion here as it causes the frame and the shot
          to separate while moving which looks bad :( -->
-    <!--<changeBounds android:interpolator="@android:interpolator/fast_out_slow_in">
+    <changeBounds android:interpolator="@android:interpolator/fast_out_slow_in">
         <targets>
             <target android:targetId="@id/background" />
         </targets>
-    </changeBounds>-->
+    </changeBounds>
 
     <!--<transition
-        class="com.osaigbovo.udacity.bakingapp.ui.transitions.ShotSharedEnter"
+        class="io.plaidapp.core.ui.transitions.ShotSharedEnter"
         android:interpolator="@android:interpolator/fast_out_slow_in">
         <targets>
             <target android:targetId="@id/shot" />

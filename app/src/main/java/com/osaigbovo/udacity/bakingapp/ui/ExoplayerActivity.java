@@ -1,13 +1,14 @@
 package com.osaigbovo.udacity.bakingapp.ui;
 
 import android.app.PictureInPictureParams;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Rational;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -15,7 +16,7 @@ import com.osaigbovo.udacity.bakingapp.R;
 import com.osaigbovo.udacity.bakingapp.ui.view.ElasticDragDismissFrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -25,7 +26,9 @@ public class ExoplayerActivity extends AppCompatActivity {
     @BindView(R.id.draggable_frame)
     ElasticDragDismissFrameLayout draggableFrame;
     @BindView(R.id.back_wrapper)
-    ConstraintLayout constraintLayout;
+    FrameLayout constraintLayout;
+    @BindView(R.id.container)
+    NestedScrollView nestedScrollView;
     @BindView(R.id.back)
     ImageButton back;
     @BindView(R.id.pip)
@@ -35,11 +38,20 @@ public class ExoplayerActivity extends AppCompatActivity {
 
     PackageManager packageManager;
 
+    Boolean isInPipMode = false;
+    Boolean isPIPModeEnabled = true; //Has the user disabled PIP mode in AppOpps?
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.exoplayer_activity);
         ButterKnife.bind(this);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, ExoplayerFragment.newInstance())
+                    .commitNow();
+        }
 
         packageManager = this.getPackageManager();
 
@@ -52,18 +64,14 @@ public class ExoplayerActivity extends AppCompatActivity {
             }
         };
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, ExoplayerFragment.newInstance())
-                    .commitNow();
-        }
 
         back.setOnClickListener(v -> ExoplayerActivity.this.onBackPressed());
     }
 
+
     @Override
-    public void onBackPressed() {
-        finishAfterTransition();
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
     }
 
     @Override
@@ -79,41 +87,44 @@ public class ExoplayerActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.picture_in_picture, menu);
-        return true;
+    protected void onStop() {
+        super.onStop();
+        //PIPmode activity.finish() does not remove the activity from the recents stack.
+        //Only finishAndRemoveTask does this.
+        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                && packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)) {
+            finishAndRemoveTask();
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_pip:
-                //
-                Toast.makeText(this, "Picture In Picture", Toast.LENGTH_SHORT).show();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public void onBackPressed() {
+        finishAfterTransition();
     }
-
 
     // Switches to PiP mode when the user clicks the PiP icon:
     @OnClick(R.id.pip)
     public void minimize() {
         Toast.makeText(this, "Picture In Picture", Toast.LENGTH_SHORT).show();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
-                packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+                && packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
+                && isPIPModeEnabled) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 PictureInPictureParams.Builder mPictureInPictureParamsBuilder
                         = new PictureInPictureParams.Builder();
                 // Calculate the aspect ratio of the PiP screen.
-                //Rational aspectRatio = new Rational(mMovieView.getWidth(), mMovieView.getHeight());
-                //mPictureInPictureParamsBuilder.setAspectRatio(aspectRatio).build();
+                Rational aspectRatio = new Rational(nestedScrollView.getWidth()*2, nestedScrollView.getHeight());
+                mPictureInPictureParamsBuilder.setAspectRatio(aspectRatio).build();
                 this.enterPictureInPictureMode(mPictureInPictureParamsBuilder.build());
 
             } else {
                 this.enterPictureInPictureMode();
             }
+
+        } else {
+            super.onBackPressed();
         }
 
     }
@@ -148,10 +159,23 @@ public class ExoplayerActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            adjustFullScreen(getResources().getConfiguration());
+        }
+    }
+
+    @Override
     public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, Configuration configuration) {
+        if(isInPictureInPictureMode){
+            isInPipMode = !isInPictureInPictureMode;
+
+            constraintLayout.setVisibility(View.GONE);
+        }else {
+            constraintLayout.setVisibility(View.VISIBLE);
+        }
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, configuration);
-
-
     }
 
 

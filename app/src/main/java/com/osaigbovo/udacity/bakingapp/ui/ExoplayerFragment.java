@@ -1,5 +1,6 @@
 package com.osaigbovo.udacity.bakingapp.ui;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -36,8 +37,6 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.osaigbovo.udacity.bakingapp.R;
 
-import java.util.Objects;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -49,29 +48,30 @@ import butterknife.Unbinder;
 public class ExoplayerFragment extends Fragment {
 
     public static final String ARG_VIDEO_URL = "video_url";
-    public static final String ARG_VIDEO_POSITION = "video_positon";
-    private static final String TAG = "PlayerActivity";
+    private static final String VIDEO_POSITION_KEY = "video_positon";
+    private static final String TAG = ExoplayerFragment.class.getSimpleName();
+    private static final String PLAY_WHEN_READY_KEY = "extra_video_playback_state";
+
     // Bandwidth meter to measure and estimate bandwidth
     private static final DefaultBandwidthMeter BANDWIDTH_METER = new DefaultBandwidthMeter();
 
     @BindView(R.id.player_view)
-    PlayerView playerView;
+    PlayerView mPlayerView;
     @BindView(R.id.loading)
-    ProgressBar progressBar;
-
+    ProgressBar mProgressBar;
+    PackageManager packageManager;
     private String videoUrl = "https://d17h27t6h515a5.cloudfront.net/topher/2017/April/58ffd974_-intro-creampie/-intro-creampie.mp4";
+    // "https://mirrors.standaloneinstaller.com/video-sample/metaxas-keller-Bell.mp4"
     private String mUrl;
-
     private SimpleExoPlayer simpleExoPlayer;
-
-    private Long videoPosition = 0L;
+    // ------
+    private long videoPosition;
+    private int currentWindow;
+    private boolean playWhenReady = true;
     private Boolean isInPipMode = false;
     private Boolean isPIPModeeEnabled = true; //Has the user disabled PIP mode in AppOpps?
     private ExoplayerViewModel mViewModel;
     private Unbinder unbinder;
-
-    PackageManager packageManager;
-
     private PlayerEventListener playerEventListener;
     private TrackSelection.Factory adaptiveTrackSelectionFactory;
     private TrackSelector mTrackSelector;
@@ -79,8 +79,8 @@ public class ExoplayerFragment extends Fragment {
     private MediaSessionCompat mMediaSession;
     private MediaSource mMediaSource;
     private PlaybackStateCompat.Builder mStateBuilder;
+    private Context context;
 
-    private boolean playWhenReady = true;
 
     public static ExoplayerFragment newInstance() {
         return new ExoplayerFragment();
@@ -106,9 +106,12 @@ public class ExoplayerFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.exoplayer_fragment, container, false);
         unbinder = ButterKnife.bind(this, rootView);
 
-        /*if(savedInstanceState != null){
-            videoPosition = savedInstanceState.getLong(ARG_VIDEO_POSITION);
-        }*/
+        context = getContext();
+
+        if (savedInstanceState != null) {
+            videoPosition = savedInstanceState.getLong(VIDEO_POSITION_KEY);
+            playWhenReady = savedInstanceState.getBoolean(PLAY_WHEN_READY_KEY);
+        }
 
         return rootView;
     }
@@ -120,39 +123,34 @@ public class ExoplayerFragment extends Fragment {
     }
 
     private void initializePlayer() {
-        // A factory to create an AdaptiveVideoTrackSelection || new RandomTrackSelection.Factory();
-        adaptiveTrackSelectionFactory = new AdaptiveTrackSelection.Factory();
-        mTrackSelector = new DefaultTrackSelector(adaptiveTrackSelectionFactory);
-        mLoadControl = new DefaultLoadControl();
+        if (simpleExoPlayer == null) {
+            // A factory to create an AdaptiveVideoTrackSelection || new RandomTrackSelection.Factory();
+            adaptiveTrackSelectionFactory = new AdaptiveTrackSelection.Factory();
+            mTrackSelector = new DefaultTrackSelector(adaptiveTrackSelectionFactory);
+            mLoadControl = new DefaultLoadControl();
 
-        simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), new DefaultRenderersFactory(getContext()), mTrackSelector, mLoadControl);
+            simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(), new DefaultRenderersFactory(getContext()), mTrackSelector, mLoadControl);
 
-        simpleExoPlayer.addListener(playerEventListener);
-        playerView.setPlayer(simpleExoPlayer);
+            simpleExoPlayer.addListener(playerEventListener);
+            mPlayerView.setPlayer(simpleExoPlayer);
 
-        //simpleExoPlayer.setPlayWhenReady(playWhenReady);
-        //simpleExoPlayer.seekTo(currentWindow, videoPosition);
+            simpleExoPlayer.setPlayWhenReady(playWhenReady);
+            simpleExoPlayer.seekTo(currentWindow, videoPosition);
+        }
 
         mMediaSource = buildMediaSource(videoUrl);
         simpleExoPlayer.prepare(mMediaSource, true, false);
+
         initializeMediaSession();
-
-    }
-
-    private MediaSource buildMediaSource(String videoUrl) {
-        Uri videoURI = Uri.parse(videoUrl);
-        String userAgent = Util.getUserAgent(getContext(), getString(R.string.app_name));
-        DataSource.Factory dataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, BANDWIDTH_METER);
-
-        return new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(videoURI);
     }
 
     private void releasePlayer() {
         mMediaSession.setActive(false);
         if (simpleExoPlayer != null) {
             videoPosition = simpleExoPlayer.getCurrentPosition();
-            //currentWindow = simpleExoPlayer.getCurrentWindowIndex();
+            currentWindow = simpleExoPlayer.getCurrentWindowIndex();
             playWhenReady = simpleExoPlayer.getPlayWhenReady();
+
             simpleExoPlayer.removeListener(playerEventListener);
             simpleExoPlayer.release();
             simpleExoPlayer = null;
@@ -161,13 +159,21 @@ public class ExoplayerFragment extends Fragment {
         }
     }
 
+    private MediaSource buildMediaSource(String videoUrl) {
+        Uri videoURI = Uri.parse(videoUrl);
+        String userAgent = Util.getUserAgent(context, getString(R.string.app_name));
+        DataSource.Factory dataSourceFactory = new DefaultHttpDataSourceFactory(userAgent, BANDWIDTH_METER);
+
+        return new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(videoURI);
+    }
+
     @Override
     public void onStart() {
         super.onStart();
         if (Util.SDK_INT > 23) {
             initializePlayer();
-            if (playerView != null) {
-                playerView.onResume();
+            if (mPlayerView != null) {
+                mPlayerView.onResume();
             }
         }
     }
@@ -175,10 +181,11 @@ public class ExoplayerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        hideSystemUi();
         if (Util.SDK_INT <= 23 || simpleExoPlayer == null) {
             initializePlayer();
-            if (playerView != null) {
-                playerView.onResume();
+            if (mPlayerView != null) {
+                mPlayerView.onResume();
             }
         }
 
@@ -186,26 +193,15 @@ public class ExoplayerFragment extends Fragment {
             simpleExoPlayer.seekTo(videoPosition);
         }
         //Makes sure that the media controls pop up on resuming and when going between PIP and non-PIP states.
-        playerView.setUseController(true);*/
+        mPlayerView.setUseController(true);*/
     }
 
     @Override
     public void onPause() {
         super.onPause();
         if (Util.SDK_INT <= 23) {
-            if (playerView != null) {
-                playerView.onPause();
-            }
-            releasePlayer();
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (Util.SDK_INT > 23) {
-            if (playerView != null) {
-                playerView.onPause();
+            if (mPlayerView != null) {
+                mPlayerView.onPause();
             }
             releasePlayer();
         }
@@ -213,15 +209,19 @@ public class ExoplayerFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putLong(ARG_VIDEO_POSITION, simpleExoPlayer.getContentPosition());
+        outState.putLong(VIDEO_POSITION_KEY, videoPosition);
+        outState.putBoolean(PLAY_WHEN_READY_KEY, playWhenReady);
         super.onSaveInstanceState(outState);
     }
 
     @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if (savedInstanceState != null) {
-            this.videoPosition = savedInstanceState.getLong(ARG_VIDEO_POSITION);
+    public void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            if (mPlayerView != null) {
+                mPlayerView.onPause();
+            }
+            releasePlayer();
         }
     }
 
@@ -230,6 +230,17 @@ public class ExoplayerFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
+
+
+   /* @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null) {
+            this.videoPosition = savedInstanceState.getLong(VIDEO_POSITION_KEY);
+            this.playWhenReady = savedInstanceState.getBoolean(PLAY_WHEN_READY_KEY);
+        }
+    }*/
 
 
     /**
@@ -245,9 +256,11 @@ public class ExoplayerFragment extends Fragment {
         videoPosition = simpleExoPlayer.getCurrentPosition();
 
         if (isInPictureInPictureMode) {
-            playerView.setUseController(false);
+            mPlayerView.setUseController(false);
+            mPlayerView.hideController();
         } else {
-            playerView.setUseController(true);
+            mPlayerView.setUseController(true);
+            mPlayerView.showController();
         }
     }
 
@@ -262,7 +275,7 @@ public class ExoplayerFragment extends Fragment {
     }
 
     private void hideSystemUi() {
-        playerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+        mPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
@@ -271,7 +284,7 @@ public class ExoplayerFragment extends Fragment {
     }
 
     private void initializeMediaSession() {
-        mMediaSession = new MediaSessionCompat(getActivity(), TAG);
+        mMediaSession = new MediaSessionCompat(context, TAG);
         mMediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
                 MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         mMediaSession.setMediaButtonReceiver(null);
@@ -300,39 +313,49 @@ public class ExoplayerFragment extends Fragment {
 
         @Override
         public void onLoadingChanged(boolean isLoading) {
-            progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
         }
 
         @Override
         public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-
-            /*if (playbackState == Player.STATE_READY && playWhenReady) {
-                mStateBuilder.setState(PlaybackStateCompat.STATE_PLAYING,
-                        simpleExoPlayer.getCurrentPosition(), 1f); //0f
-            } else if ((playbackState == Player.STATE_READY)) {
-                mStateBuilder.setState(PlaybackStateCompat.STATE_PAUSED,
-                        simpleExoPlayer.getCurrentPosition(), 1f); //0f
-            }
-            mMediaSession.setPlaybackState(mStateBuilder.build());*/
-
             String stateString;
             switch (playbackState) {
-                case Player.STATE_IDLE:
+                case Player.STATE_IDLE: // The player does not have any media to play
                     stateString = "ExoPlayer.STATE_IDLE      -";
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    //mmPlayerView.hideController();
                     break;
-                case Player.STATE_BUFFERING:
+                case Player.STATE_BUFFERING: // The player needs to load media before playing.
                     stateString = "ExoPlayer.STATE_BUFFERING -";
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    //mPlayPauseLayout.setVisibility(View.GONE);
                     break;
-                case Player.STATE_READY:
+                case Player.STATE_READY: // The player is able to immediately play from its current position.
                     stateString = "ExoPlayer.STATE_READY     -";
+                    mProgressBar.setVisibility(View.GONE);
+
+                    if (playWhenReady) {
+                        // When ExoPlayer is playing, update the PlayBackState.
+                        Log.d(TAG, "onPlayerStateChanged: PLAYING");
+                        mStateBuilder.setState(PlaybackStateCompat.STATE_PLAYING,
+                                simpleExoPlayer.getCurrentPosition(), 1f);
+                    } else {
+                        // When ExoPlayer is paused, update the PlayBackState.
+                        Log.d(TAG, "onPlayerStateChanged: PAUSED");
+                        mStateBuilder.setState(PlaybackStateCompat.STATE_PAUSED,
+                                simpleExoPlayer.getCurrentPosition(), 1f);
+                    }
+                    mMediaSession.setPlaybackState(mStateBuilder.build());
+
+                    //mPlayPauseLayout.setVisibility(View.VISIBLE);
                     break;
-                case Player.STATE_ENDED:
+                case Player.STATE_ENDED: // The player has finished playing the media.
                     stateString = "ExoPlayer.STATE_ENDED     -";
                     break;
                 default:
                     stateString = "UNKNOWN_STATE             -";
                     break;
             }
+
             Log.d("Exo", "changed state to " + stateString + " playWhenReady: " + playWhenReady);
         }
 
@@ -340,13 +363,13 @@ public class ExoplayerFragment extends Fragment {
         public void onRepeatModeChanged(int repeatMode) {
             switch (repeatMode) {
                 case Player.REPEAT_MODE_OFF:
-                    playerView.setRepeatToggleModes(repeatMode);
+                    mPlayerView.setRepeatToggleModes(repeatMode);
                     break;
                 case Player.REPEAT_MODE_ONE:
-                    playerView.setRepeatToggleModes(Player.REPEAT_MODE_ALL);
+                    mPlayerView.setRepeatToggleModes(Player.REPEAT_MODE_ALL);
                     break;
                 case Player.REPEAT_MODE_ALL:
-                    playerView.setRepeatToggleModes(Player.REPEAT_MODE_ALL);
+                    mPlayerView.setRepeatToggleModes(Player.REPEAT_MODE_ALL);
                     break;
                 default:
                     // Default
@@ -360,6 +383,7 @@ public class ExoplayerFragment extends Fragment {
 
         @Override
         public void onPlayerError(ExoPlaybackException error) {
+            Log.d(TAG, error.getMessage());
         }
 
         @Override
@@ -373,9 +397,9 @@ public class ExoplayerFragment extends Fragment {
         @Override
         public void onSeekProcessed() {
         }
-
     }
 
+    // Media Session Callbacks, where all external clients control the player.
     private class BakingSessionCallback extends MediaSessionCompat.Callback {
         @Override
         public void onPlay() {

@@ -21,11 +21,11 @@
             android:contentDescription="@string/exo_controls_previous_description"
             android:tint="#FF00A6FF" />
 
-        <!--<ImageButton
+        <ImageButton
             android:id="@id/exo_rew"
             style="@style/ExoMediaButton.Rewind"
             android:contentDescription="@string/exo_controls_rewind_description"
-            android:tint="#FF00A6FF" />-->
+            android:tint="#FF00A6FF" />
 
         <!--<ImageButton
             android:id="@id/exo_shuffle"
@@ -51,11 +51,11 @@
             android:contentDescription="@string/exo_controls_pause_description"
             android:tint="#FF00A6FF" />
 
-        <!--<ImageButton
+        <ImageButton
             android:id="@id/exo_ffwd"
             style="@style/ExoMediaButton.FastForward"
             android:contentDescription="@string/exo_controls_fastforward_description"
-            android:tint="#FF00A6FF" />-->
+            android:tint="#FF00A6FF" />
 
         <ImageButton
             android:id="@id/exo_next"

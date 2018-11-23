@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.osaigbovo.udacity.bakingapp"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -69,7 +69,7 @@ dependencies {
 
     // Room
     implementation "androidx.room:room-runtime:${versions.room}"
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-alpha1'
+    implementation "androidx.lifecycle:lifecycle-extensions:${versions.room}"
     annotationProcessor "androidx.room:room-compiler:${versions.room}"
     implementation "androidx.room:room-rxjava2:${versions.room}" // Room RxJava Support for Room
 
@@ -100,14 +100,6 @@ dependencies {
 
     // Logging
     implementation "com.jakewharton.timber:timber:${versions.timber}"
-
-
-    implementation 'com.stepstone.stepper:material-stepper:4.3.1'
-
-    implementation 'com.ernestoyaquello.stepperform:vertical-stepper-form:0.9.9'
-
-
-
 
 
     testImplementation 'junit:junit:4.12'

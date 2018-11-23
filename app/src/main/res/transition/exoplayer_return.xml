@@ -16,7 +16,21 @@
             android:interpolator="@android:interpolator/fast_out_linear_in" />
     </transitionSet>
 
-    <!-- Except the system chrome, same duration as shared elements. -->
+    <transitionSet>
+        <targets>
+            <target android:excludeId="@android:id/navigationBarBackground" />
+            <target android:excludeId="@android:id/statusBarBackground" />
+            <target android:targetId="@id/back_wrapper" />
+        </targets>
+        <fade
+            android:duration="48"
+            android:interpolator="@android:interpolator/fast_out_linear_in" />
+        <slide
+            android:slideEdge="top"
+            android:duration="250"
+            android:interpolator="@android:interpolator/fast_out_linear_in" />
+    </transitionSet>
+
     <fade
         android:duration="250"
         android:interpolator="@android:interpolator/linear">
@@ -27,3 +41,4 @@
     </fade>
 
 </transitionSet>
+

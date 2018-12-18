@@ -1,6 +1,5 @@
 package com.osaigbovo.udacity.bakingapp.data;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -70,6 +69,7 @@ public class Resource<T> {
         return result;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Resource{" +

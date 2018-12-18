@@ -8,8 +8,17 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Index;
+
+@Entity(primaryKeys = "id",
+        tableName = "recipes",
+        indices = {@Index(value = {"id"}, unique = true)}
+)
 public class Recipe implements Parcelable {
 
+    @NonNull
     @SerializedName("id")
     @Expose
     private Integer id;

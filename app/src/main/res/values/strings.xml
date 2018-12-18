@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">BakingApp</string>
     <string name="title_item_detail">Item Detail</string>
 
@@ -15,9 +15,22 @@
     <string name="picture_in_picture">Picture in Picture</string>
 
 
+    <!-- Ingredients -->
+    <string name="ingredient_label">Recipe Ingredients</string>
 
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
-    <string name="appwidget_prefix_default"></string>
-    <string name="appwidget_configure_instructions"></string>
+    <!-- Steps -->
+    <string name="step_description">Recipe Introduction</string>
+
+
+    <!---->
+    <string name="app_widget_configure_instructions">Choose a Recipe</string>
+    <string name="app_widget_apply_button">Apply</string>
+    <string name="widget_config_no_data">No Data to Display</string>
+    <string name="recipe_list_ingredients_text">Ingredients: <xliff:g id="count">%d</xliff:g></string>
+    <string name="recipe_details_ingredients_header"><b>Ingredients list:</b></string>
+    <string name="recipe_details_ingredient_line" translatable="false">
+        <xliff:g id="bullet">\u2022</xliff:g> <xliff:g id="name">%s</xliff:g>
+        (<xliff:g id="quantity">%s</xliff:g> <xliff:g id="measure">%s</xliff:g>)
+    </string>
+
 </resources>

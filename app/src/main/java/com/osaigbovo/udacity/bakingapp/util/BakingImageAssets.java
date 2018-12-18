@@ -8,8 +8,8 @@ import java.util.List;
 public class BakingImageAssets {
 
     private static final List<Integer> bakingImages = new ArrayList<Integer>() {{
-        add(R.drawable.nutella_pie);
-        add(R.drawable.brownies);
+        add(R.drawable.a);
+        add(R.drawable.b);
         add(R.drawable.yellow_cake);
         add(R.drawable.cheese_cake);
     }};

@@ -1,48 +1,82 @@
 package com.osaigbovo.udacity.bakingapp.widget;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.osaigbovo.udacity.bakingapp.R;
-import com.osaigbovo.udacity.bakingapp.ui.MainActivity;
+import com.osaigbovo.udacity.bakingapp.data.model.Ingredient;
+import com.osaigbovo.udacity.bakingapp.data.model.Recipe;
+import com.osaigbovo.udacity.bakingapp.ui.ui.bakingdetails.RecipeDetailActivity;
+import com.osaigbovo.udacity.bakingapp.util.ViewUtils;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+import timber.log.Timber;
+
+import static com.osaigbovo.udacity.bakingapp.ui.ui.bakingdetails.RecipeDetailActivity.ARG_RECIPE;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class BakingAppWidgetProvider extends AppWidgetProvider {
+
     private static final String TAG = BakingAppWidgetProvider.class.getSimpleName();
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+    @Inject
+    BakingAppWidgetUtil bakingAppWidgetUtil;
+    private Recipe recipeL;
+
+    @SuppressLint("CheckResult")
+    public static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+                                       int appWidgetId, String recipeName,
+                                       ArrayList<Ingredient> ingredients,
+                                       Recipe recipe) {
 
         // Get the layout for the App Widget and attach an on-click listener to the button
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget);
 
-        // TODO 2 Create an Intent to launch DetailsActivity
-        Intent intent = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        views.setTextViewText(R.id.widget_recipe_name, recipeName);
+        views.removeAllViews(R.id.widget_ingredients_container);
 
-        views.setOnClickPendingIntent(R.id.button, pendingIntent);
+        for (Ingredient ingredient : ingredients) {
+            RemoteViews ingredientView = new RemoteViews(context.getPackageName(),
+                    R.layout.baking_app_widget_ingredients_list_item);
 
-        /*CharSequence widgetText = context.getString(R.string.appwidget_text);
-        views.setTextViewText(R.id.appwidget_text, widgetText);*/
+            String line = ViewUtils.formatIngdedient(context,
+                    ingredient.getIngredient(),
+                    ingredient.getQuantity(),
+                    ingredient.getMeasure());
+
+            ingredientView.setTextViewText(R.id.widget_ingredient_name, line);
+            views.addView(R.id.widget_ingredients_container, ingredientView);
+        }
+
+        // Intent to launch DetailsActivity
+        Intent intent = new Intent(context, RecipeDetailActivity.class);
+        intent.putExtra(ARG_RECIPE, recipe);
+        PendingIntent pendingIntent = PendingIntent
+                .getActivity(context, 0, intent, 0);
+
+        views.setOnClickPendingIntent(R.id.widget_container, pendingIntent);
 
         // Tell the AppWidgetManager to perform an update on the current app widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
-
-    // Called for every broadcast and before each of the callback methods.
-    /*@Override
+    @Override
     public void onReceive(Context context, Intent intent) {
-
-    }*/
+        AndroidInjection.inject(this, context);
+        super.onReceive(context, intent);
+    }
 
     /* Called to update the App Widget at intervals defined by the updatePeriodMillis attribute in the
      * AppWidgetProviderInfo. Also called when the user adds the App Widget, so it should perform the
@@ -51,16 +85,36 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
      * but is called for the subsequent updates. Responsibility of the configuration Activity to
      * perform the first update when configuration is done.
      * */
+    @SuppressLint("CheckResult")
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        // Register the event handlers in this callback.
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
         // appWidgetIds an array of IDs that identify each App Widget created by this provider.
-        // If the user creates more than one instance of the App Widget, then they are all updated simultaneously.
+        // If the user creates more than one instance of the App Widget, then they are all updated
+        // simultaneously.
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
+            String recipeName = bakingAppWidgetUtil.getRecipeNameFromPrefs(appWidgetId);
+
+            //noinspection ResultOfMethodCallIgnored
+            bakingAppWidgetUtil
+                    .getRecipe(recipeName)
+                    .map(recipe -> {
+                        recipeL = recipe;
+                        return recipe.getIngredients();
+                    })
+                    .take(1)
+                    .subscribe(
+                            // OnNext
+                            ingredients ->
+                                    BakingAppWidgetProvider
+                                            .updateAppWidget(context, appWidgetManager,
+                                                    appWidgetId, recipeName, ingredients, recipeL),
+                            // OnError
+                            throwable ->
+                                    Timber.d(throwable.getMessage()));
+
         }
 
-       super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     /*
@@ -93,6 +147,9 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
     // Called every time an App Widget is deleted from the App Widget host.
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
+        for (int appWidgetId : appWidgetIds) {
+            bakingAppWidgetUtil.deleteRecipeFromPrefs(appWidgetId);
+        }
     }
 
 }

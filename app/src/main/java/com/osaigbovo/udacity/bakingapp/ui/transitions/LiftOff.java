@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 
 import com.osaigbovo.udacity.bakingapp.R;
 
-
 /**
  * A transition that animates the elevation of a View from a given value down to zero.
  * 

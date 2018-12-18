@@ -6,16 +6,21 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import androidx.annotation.Nullable;
+
 public class Ingredient implements Parcelable {
 
+    @Nullable
     @SerializedName("quantity")
     @Expose
     private double quantity;
 
+    @Nullable
     @SerializedName("measure")
     @Expose
     private String measure;
 
+    @Nullable
     @SerializedName("ingredient")
     @Expose
     private String ingredient;

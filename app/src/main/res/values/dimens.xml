@@ -5,20 +5,35 @@
     <dimen name="item_width">200dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
+    <dimen name="margin_4">4dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_16">8dp</dimen>
+    <dimen name="margin_24">8dp</dimen>
+    <dimen name="margin_32">8dp</dimen>
 
     <dimen name="recipe_title_margin">8dp</dimen>
-
     <dimen name="recipe_image_margin">8dp</dimen>
 
     <dimen name="padding_normal">16dp</dimen>
     <dimen name="padding_large">24dp</dimen>
-    <dimen name="z_fab_over_touchable_app_bar">9dp</dimen>
+    <dimen name="z_touchable_app_bar">10dp</dimen>
 
+    <!-- standard metrics 112dp -->
+    <dimen name="drag_dismiss_distance">250dp</dimen>
 
-    <!-- standard metrics -->
-    <dimen name="drag_dismiss_distance">112dp</dimen>
+    <!-- Media Fragment-->
+    <dimen name="exoplayer_height">300dp</dimen>
 
-    <!--  -->
-    <dimen name="widget_margin">8dp</dimen> <!-- 2 * ?android:actionBarSize -->
+    <!-- Navigation bar -->
+    <dimen name="navigationArrowWidth">100dp</dimen>
+    <dimen name="navigationTextSize">20sp</dimen>
+    <dimen name="navigationElevation">4dp</dimen>
+
+    <!--Widget-->
+    <dimen name="widget_margin">8dp</dimen>
+    <dimen name="widget_default_height">180dp</dimen>
+    <dimen name="widget_default_width">250dp</dimen>
+    <dimen name="widget_default_resize_width">180dp</dimen>
+    <dimen name="widget_default_resize_height">110dp</dimen>
 
 </resources>

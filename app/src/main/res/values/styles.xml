@@ -1,17 +1,10 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="Baking" parent="Theme.AppCompat.Light.NoActionBar">
-
+    <style name="Baking" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
-        <!--<item name="android:navigationBarColor">@color/background_super_dark</item>
-        <item name="android:statusBarColor">@color/background_super_dark</item>
-        <item name="android:textColorHint">@color/hint_disabled_dark</item>
-        <item name="android:windowBackground">@color/background_light</item>-->
-
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
@@ -29,6 +22,17 @@
     <style name="Baking.RecipeDetail">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowEnterTransition">@transition/home_enter</item>
+    </style>
+
+    <style name="Baking.Configure">
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="Baking.Translucent">
@@ -43,12 +47,11 @@
     </style>
 
     <style name="Baking.Translucent.Exoplayer">
-        <item name="android:statusBarColor">@color/dribbble_super_dark</item>
-        <item name="android:navigationBarColor">@color/dribbble_super_dark</item>
+        <item name="android:statusBarColor">@color/super_dark</item>
+        <item name="android:navigationBarColor">@color/super_dark</item>
         <item name="android:colorControlActivated">?android:colorAccent</item>
         <item name="android:windowAllowReturnTransitionOverlap">false</item>
     </style>
-
 
     <style name="Baking.Translucent.Exoplayer.Screen">
         <item name="android:windowSharedElementEnterTransition">@transition/exoplayer_shared_enter</item>
@@ -75,10 +78,47 @@
 
     <style name="RecipeImage">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">180dp</item>
-        <item name="android:layout_margin">@dimen/recipe_image_margin</item>
+        <item name="android:layout_height">240dp</item>
+        <!--<item name="android:layout_margin">@dimen/recipe_image_margin</item>-->
         <item name="android:scaleType">centerCrop</item>
         <item name="android:contentDescription">@string/recipe_image</item>
+    </style>
+
+
+    <!-- Configure Activity -->
+    <style name="RadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:layout_weight">1</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:fontFamily">@font/raleway_semibold</item>
+        <item name="android:gravity">start|center_vertical|end</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextViewConfigure">
+        <item name="android:fontFamily">@font/raleway_semibold</item>
+        <item name="android:text">@string/app_widget_configure_instructions</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MaterialButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@color/colorAccent</item>
+        <item name="backgroundTintMode">multiply</item>
+        <item name="android:fontFamily">@font/raleway_semibold</item>
+        <item name="android:text">@string/app_widget_apply_button</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:typeface">normal</item>
+        <item name="cornerRadius">50dp</item>
     </style>
 
 </resources>

@@ -10,9 +10,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.osaigbovo.udacity.bakingapp.R;
-import com.osaigbovo.udacity.bakingapp.ui.utils.AnimUtils;
-import com.osaigbovo.udacity.bakingapp.ui.utils.ColorUtils;
-import com.osaigbovo.udacity.bakingapp.ui.utils.ViewUtils;
+import com.osaigbovo.udacity.bakingapp.util.AnimUtils;
+import com.osaigbovo.udacity.bakingapp.util.ColorUtils;
+import com.osaigbovo.udacity.bakingapp.util.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;

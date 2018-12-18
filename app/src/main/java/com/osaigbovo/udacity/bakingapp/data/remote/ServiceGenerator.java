@@ -90,7 +90,7 @@ public class ServiceGenerator {
         public Response intercept(@NonNull Chain chain) throws IOException {
             Request request = chain.request();
 
-            /*if (!PopularMoviesApp.hasNetwork()) {
+            /*if (!BakingApplication.hasNetwork()) {
                 Timber.i("Offline cache applied");
                 int maxStale = 60 * 60 * 24 * 28; // tolerate 4-weeks stale
                 request = request.newBuilder()

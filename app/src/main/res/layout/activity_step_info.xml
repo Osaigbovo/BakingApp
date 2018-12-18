@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.osaigbovo.udacity.bakingapp.ui.view.ElasticDragDismissFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/draggable_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_lightish"
+    android:transitionGroup="false"
+    app:dragDismissDistance="@dimen/drag_dismiss_distance"
+    app:dragDismissScale="0.95"
+    tools:context=".ui.ui.bakingstep.StepInfoActivity">
+
+    <View
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_lightishs"
+        android:transitionName="@string/transition_shot_background" />
+
+    <RelativeLayout
+        android:id="@+id/navigation_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@color/navigationArrowBackground"
+        android:elevation="@dimen/navigationElevation">
+
+        <ImageButton
+            android:id="@+id/next_step"
+            android:layout_width="@dimen/navigationArrowWidth"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@color/navigationArrowBackground"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_right_arrow" />
+
+        <TextView
+            android:id="@+id/step_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/mainTextColor"
+            android:textSize="@dimen/navigationTextSize"
+            android:textStyle="bold"
+            tools:ignore="RelativeOverlap"
+            tools:text="2" />
+
+        <ImageButton
+            android:id="@+id/prev_step"
+            android:layout_width="@dimen/navigationArrowWidth"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:background="@color/navigationArrowBackground"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_left_arrow" />
+
+    </RelativeLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?android:actionBarSize">
+
+        <FrameLayout
+            android:id="@+id/media_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/back_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:background="@color/colorAccent"
+        android:elevation="@dimen/z_touchable_app_bar">
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="?android:actionBarSize"
+            android:layout_height="?android:actionBarSize"
+            android:layout_gravity="start"
+            android:background="@drawable/mid_grey_ripple"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_arrow_back" />
+
+        <ImageButton
+            android:id="@+id/pip"
+            android:layout_width="?android:actionBarSize"
+            android:layout_height="?android:actionBarSize"
+            android:layout_gravity="end"
+            android:background="@drawable/mid_grey_ripple"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_pip" />
+
+    </FrameLayout>
+
+</com.osaigbovo.udacity.bakingapp.ui.view.ElasticDragDismissFrameLayout>

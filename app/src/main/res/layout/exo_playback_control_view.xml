@@ -27,18 +27,6 @@
             android:contentDescription="@string/exo_controls_rewind_description"
             android:tint="#FF00A6FF" />
 
-        <!--<ImageButton
-            android:id="@id/exo_shuffle"
-            style="@style/ExoMediaButton.Shuffle"
-            android:contentDescription="@string/exo_controls_shuffle_description"
-            android:tint="#FF00A6FF" />-->
-
-        <!--<ImageButton
-            android:id="@id/exo_repeat_toggle"
-            style="@style/ExoMediaButton"
-            android:contentDescription="@string/exo_controls_repeat_one_description"
-            android:tint="#FF00A6FF" />-->
-
         <ImageButton
             android:id="@id/exo_play"
             style="@style/ExoMediaButton.Play"

@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#932c78</color>
+    <color name="colorPrimaryDark">#801965</color>
+    <color name="colorAccent">#5C1349</color>
 
-
-    <color name="recipe_title">#000000</color>
-
+    <color name="recipe_title">#00574B</color>
 
     <color name="scrim">#99323232</color>
 
     <color name="background_light">#fafafa</color> <!-- grey 50 -->
     <color name="background_lightish">#e0e0e0</color> <!-- grey 300 -->
+    <color name="background_lightishs">#d9d8d8</color>
     <color name="background_card">#ffffff</color>
     <color name="background_dark">#ff333333</color>
 
     <color name="mid_grey">#40808080</color>
 
-    <color name="dribbble">#fff06292</color> <!-- pink 300 -->
-    <color name="dribbble_dark">#ec407a</color> <!-- pink 400 -->
-    <color name="dribbble_super_dark">#ff33292d</color>
-    <color name="dribbble_link_highlight">#b3f06292</color>
+    <color name="super_dark">#ff33292d</color>
 
+    <color name="colorWhite">#ffffff</color>
+
+    <color name="mainTextColor">#000</color>
+    <color name="navigationArrowBackground">#fff</color>
 
 </resources>

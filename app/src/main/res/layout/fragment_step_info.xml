@@ -5,9 +5,7 @@
     android:id="@+id/exoplayer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center_horizontal"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
+    android:layout_gravity="center_horizontal|center_vertical"
     android:adjustViewBounds="true"
     android:background="@color/background_lightish"
     android:scaleType="fitCenter">
@@ -15,6 +13,7 @@
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/player_view"
         android:layout_width="match_parent"
+        android:adjustViewBounds="true"
         android:layout_height="@dimen/exoplayer_height"
         app:controller_layout_id="@layout/exo_playback_control_view"
         app:layout_constraintEnd_toEndOf="parent"

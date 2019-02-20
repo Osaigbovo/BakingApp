@@ -41,7 +41,6 @@ import com.google.android.exoplayer2.util.Util;
 import com.google.android.material.card.MaterialCardView;
 import com.osaigbovo.udacity.bakingapp.R;
 import com.osaigbovo.udacity.bakingapp.data.model.Step;
-import com.osaigbovo.udacity.bakingapp.di.Injectable;
 import com.osaigbovo.udacity.bakingapp.ui.ui.bakingdetails.RecipeDetailActivity;
 
 import java.util.ArrayList;
@@ -52,8 +51,9 @@ import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import dagger.android.support.AndroidSupportInjection;
 
-public class StepInfoFragment extends Fragment implements Injectable {
+public class StepInfoFragment extends Fragment {
 
     public static final String ARG_STEP = "step";
     public static final String ARG_POSITION = "position";
@@ -69,7 +69,7 @@ public class StepInfoFragment extends Fragment implements Injectable {
     @BindView(R.id.text_description)
     TextView mTextDescription;
     @BindView(R.id.card_description)
-    MaterialCardView mCardViewx;
+    MaterialCardView mCardView;
 
     private PackageManager packageManager;
     private SimpleExoPlayer simpleExoPlayer;
@@ -98,6 +98,13 @@ public class StepInfoFragment extends Fragment implements Injectable {
         args.putInt(ARG_POSITION, position);
         fragment.setArguments(args);
         return fragment;
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        AndroidSupportInjection.inject(this);
+        super.onAttach(context);
     }
 
     @Override
@@ -267,13 +274,14 @@ public class StepInfoFragment extends Fragment implements Injectable {
         videoPosition = simpleExoPlayer.getCurrentPosition();
 
         if (isInPictureInPictureMode) {
+
             mPlayerView.setUseController(false);
             mPlayerView.hideController();
-            //mCardView.setVisibility(View.GONE);
+            mCardView.setVisibility(View.GONE);
         } else {
             mPlayerView.setUseController(true);
             mPlayerView.showController();
-            //mCardView.setVisibility(View.VISIBLE);
+            mCardView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -281,13 +289,11 @@ public class StepInfoFragment extends Fragment implements Injectable {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            //mCardView.setVisibility(View.GONE);
+            mCardView.setVisibility(View.GONE);
             hideSystemUi();
-            //mTextDescription.setVisibility(View.GONE);
         } else {
-            //mCardView.setVisibility(View.VISIBLE);
+            mCardView.setVisibility(View.VISIBLE);
             mPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            //mTextDescription.setText(steps.get(position).getDescription());
         }
     }
 

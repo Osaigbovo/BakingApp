@@ -49,6 +49,8 @@ public class StepInfoActivity extends AppCompatActivity implements HasSupportFra
     FrameLayout wrapperFrameLayout;
     @BindView(R.id.container)
     NestedScrollView nestedScrollView;
+    @BindView(R.id.media_container)
+    FrameLayout frameLayout;
     @BindView(R.id.back)
     ImageButton back;
     @BindView(R.id.pip)
@@ -64,9 +66,9 @@ public class StepInfoActivity extends AppCompatActivity implements HasSupportFra
     private ArrayList<Step> steps;
     private int stepPosition;
 
-    PackageManager packageManager;
+    private PackageManager packageManager;
 
-    private Boolean isPIPModeEnabled = true; //Has the user disabled PIP mode in AppOpps?
+    private final Boolean isPIPModeEnabled = true; //Has the user disabled PIP mode in AppOpps?
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
@@ -164,7 +166,6 @@ public class StepInfoActivity extends AppCompatActivity implements HasSupportFra
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 PictureInPictureParams.Builder mPictureInPictureParamsBuilder
                         = new PictureInPictureParams.Builder();
-                // Calculate the aspect ratio of the PiP screen.
                 Rational aspectRatio = new Rational(nestedScrollView.getWidth() * 2,
                         nestedScrollView.getHeight());
                 mPictureInPictureParamsBuilder.setAspectRatio(aspectRatio).build();
@@ -233,8 +234,8 @@ public class StepInfoActivity extends AppCompatActivity implements HasSupportFra
     public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode,
                                               Configuration configuration) {
         if (isInPictureInPictureMode) {
-            wrapperFrameLayout.setVisibility(View.GONE);
-            navigationBar.setVisibility(View.GONE);
+            wrapperFrameLayout.setVisibility(View.INVISIBLE);
+            navigationBar.setVisibility(View.INVISIBLE);
         } else {
             wrapperFrameLayout.setVisibility(View.VISIBLE);
             navigationBar.setVisibility(View.VISIBLE);

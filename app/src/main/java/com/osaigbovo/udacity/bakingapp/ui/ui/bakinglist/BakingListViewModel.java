@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.LiveDataReactiveStreams;
 import androidx.lifecycle.ViewModel;
@@ -23,16 +24,15 @@ public class BakingListViewModel extends ViewModel {
     @Inject
     public BakingListViewModel(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
+    }
 
-        recipesLiveData = LiveDataReactiveStreams
+    @VisibleForTesting
+    public LiveData<Resource<List<Recipe>>> getRecipesLiveData() {
+        return recipesLiveData = LiveDataReactiveStreams
                 .fromPublisher(recipeRepository.getRecipes()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                 );
-    }
-
-    LiveData<Resource<List<Recipe>>> getRecipesLiveData() {
-        return recipesLiveData;
     }
 
 }

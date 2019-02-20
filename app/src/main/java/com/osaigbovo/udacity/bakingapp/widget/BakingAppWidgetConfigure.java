@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.osaigbovo.udacity.bakingapp.R;
 import com.osaigbovo.udacity.bakingapp.data.model.Recipe;
+import com.osaigbovo.udacity.bakingapp.di.Injectable;
 
 import java.util.Set;
 
@@ -25,13 +26,14 @@ import butterknife.BindString;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import io.reactivex.disposables.CompositeDisposable;
 
 // Activity that allows the user to configure settings when he or she adds a new App Widget,
-public class BakingAppWidgetConfigure extends AppCompatActivity implements HasSupportFragmentInjector {
+public class BakingAppWidgetConfigure extends AppCompatActivity implements Injectable {
 
     private static final String TAG = BakingAppWidgetConfigure.class.getSimpleName();
 
@@ -39,8 +41,6 @@ public class BakingAppWidgetConfigure extends AppCompatActivity implements HasSu
     Context context;
     @Inject
     BakingAppWidgetUtil bakingAppWidgetUtil;
-    @Inject
-    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
     private CompositeDisposable compositeDisposable;
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
@@ -53,12 +53,8 @@ public class BakingAppWidgetConfigure extends AppCompatActivity implements HasSu
     public static Recipe recipeL;
 
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return dispatchingAndroidInjector;
-    }
-
-    @Override
     public void onCreate(Bundle icicle) {
+        AndroidInjection.inject(this);
         super.onCreate(icicle);
         // If back button is pressed cancel the widget host from making the widget placement.
         setResult(RESULT_CANCELED);

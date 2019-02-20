@@ -15,6 +15,8 @@ import javax.inject.Singleton;
 import androidx.annotation.NonNull;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -33,7 +35,7 @@ public class RecipeRepository {
     private final SharedPreferencesUtil sharedPreferencesUtil;
 
     @Inject
-    RecipeRepository(RecipesDao recipesDao, RequestInterface requestInterface,
+    public RecipeRepository(RecipesDao recipesDao, RequestInterface requestInterface,
                      SharedPreferencesUtil sharedPreferencesUtil) {
         this.requestInterface = requestInterface;
         this.recipesDao = recipesDao;

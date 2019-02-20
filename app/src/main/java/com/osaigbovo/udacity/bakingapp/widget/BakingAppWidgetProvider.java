@@ -31,8 +31,7 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
 
     private static final String TAG = BakingAppWidgetProvider.class.getSimpleName();
 
-    @Inject
-    BakingAppWidgetUtil bakingAppWidgetUtil;
+    //@Inject BakingAppWidgetUtil bakingAppWidgetUtil;
     private Recipe recipeL;
 
     @SuppressLint("CheckResult")
@@ -93,7 +92,7 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
         // If the user creates more than one instance of the App Widget, then they are all updated
         // simultaneously.
         for (int appWidgetId : appWidgetIds) {
-            String recipeName = bakingAppWidgetUtil.getRecipeNameFromPrefs(appWidgetId);
+            /*String recipeName = bakingAppWidgetUtil.getRecipeNameFromPrefs(appWidgetId);
 
             //noinspection ResultOfMethodCallIgnored
             bakingAppWidgetUtil
@@ -111,7 +110,7 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
                                                     appWidgetId, recipeName, ingredients, recipeL),
                             // OnError
                             throwable ->
-                                    Timber.d(throwable.getMessage()));
+                                    Timber.d(throwable.getMessage()));*/
 
         }
 
@@ -148,7 +147,7 @@ public class BakingAppWidgetProvider extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         for (int appWidgetId : appWidgetIds) {
-            bakingAppWidgetUtil.deleteRecipeFromPrefs(appWidgetId);
+            //bakingAppWidgetUtil.deleteRecipeFromPrefs(appWidgetId);
         }
     }
 

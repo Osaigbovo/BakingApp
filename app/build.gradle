@@ -39,8 +39,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Support Libraries
-    implementation 'androidx.annotation:annotation:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.annotation:annotation:1.0.1'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.legacy:legacy-support-core-ui:1.0.0'
@@ -113,12 +113,34 @@ dependencies {
     // Expandable Layout
     implementation 'com.github.iammert:ExpandableLayout:1.4.1'
 
-    implementation 'com.stepstone.stepper:material-stepper:4.3.1'
+    // Core library
+    androidTestImplementation 'androidx.test:core:1.1.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+
+    implementation 'androidx.fragment:fragment:1.1.0-alpha03'
+    debugImplementation('androidx.fragment:fragment-testing:1.1.0-alpha03') {
+        exclude group: 'androidx.test', module: 'core'
+        exclude group: 'androidx.fragment', module: 'fragment'
+        exclude group: 'androidx.lifecycle', module: 'lifecycle-viewmodel'
+    }
+
+    // AndroidJUnitRunner and JUnit Rules
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test:rules:1.1.1'
+    androidTestImplementation 'android.arch.core:core-testing:1.1.1'
 
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.19.0'
+    androidTestImplementation 'org.mockito:mockito-android:2.19.0'
 
-    androidTestImplementation 'androidx.test:runner:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+
+    // Espresso dependencies
+    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espresso}"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:${versions.espresso}"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:${versions.espresso}"
+    androidTestImplementation "androidx.test.espresso:espresso-accessibility:${versions.espresso}"
+    androidTestImplementation "androidx.test.espresso:espresso-web:${versions.espresso}"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:${versions.espresso}"
+    implementation "androidx.test.espresso:espresso-idling-resource:${versions.espresso}"
 
 }

@@ -22,7 +22,7 @@ abstract class ActivityModule {
     @ContributesAndroidInjector
     abstract MainActivity contributeMainActivity();
 
-    @ContributesAndroidInjector(modules = FragmentBuildersModule.class)
+    @ContributesAndroidInjector
     abstract RecipeDetailActivity contributeRecipeDetailActivity();
 
     @ContributesAndroidInjector()
